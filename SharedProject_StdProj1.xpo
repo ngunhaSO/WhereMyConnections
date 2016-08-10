@@ -1,0 +1,788 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: Job1 unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #Job1
+    #static void Job1(Args _args)
+    #{
+    #    StdSvcPortfolioData                         portfolio;
+    #    List                                        connections;
+    #
+    #    //connection related data
+    #    StdSvcConnectionData                        connectionData;
+    #    McsCmContrContract                          contract;
+    #    McsCmContrConnection                        contractConnection;
+    #    McsConnection                               connection;
+    #    //location related data
+    #
+    #    DirPartyTable                               dirPartyTable;
+    #    LOGISTICSPOSTALADDRESS                      address;
+    #    LOGISTICSADDRESSSTATE                       addressState;
+    #    //country
+    #    LogisticsAddressCountryRegionTranslation    country;
+    #
+    #    ListEnumerator listE;
+    #
+    #    portfolio = new StdSvcPortfolioData();
+    #    connections = new List(Types::Class);
+    #
+    #    //select all connection data
+    #
+    #    while select *
+    #        from contract
+    #        join dirPartyTable
+    #        where dirPartyTable.RecId == contract.PartyContractor
+    #        //&& contract.ContractStatus == McsCmContrStatuses::Signed
+    #        //&& contract.ContractStatus == McsCmContrStatuses::Draft
+    #        join address
+    #        where address.Location == dirPartyTable.PrimaryAddressLocation
+    #        join addressState
+    #        where address.State == addressState.StateId
+    #        join contractConnection
+    #        where dirPartyTable.RecId == contractConnection.PartyDebtor
+    #        //&& contractConnection.EndDateTime == FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::DateNull())
+    #        join connection
+    #        group by connection.Id, connection.EanId, connection.ExternalConnectionId
+    #        , contract.ContractStatus
+    #        , contractConnection.Direction, contractConnection.UtilityType
+    #        , contractConnection.StartDateTime, contractConnection.EndDateTime
+    #        , dirPartyTable.Name
+    #        , address.Street, address.StreetNumber, address.City, address.State, address.County, address.CountryRegionId
+    #        , address.Address, address.Latitude, address.Longitude
+    #        where contractConnection.ExternalConnectionId == connection.ExternalConnectionId
+    #    {
+    #        connectionData = new StdSvcConnectionData();
+    #        connectionData.parmConnectionId(connection.Id);
+    #        connectionData.parmMcsEanId(connection.EanId);
+    #        connectionData.parmExternalConnectionId(connection.ExternalConnectionId);
+    #        connectionData.parmDebtor(dirPartyTable.Name);
+    #        connectionData.parmContractStatus(contract.ContractStatus);
+    #        connectionData.parmContractStatusLabel(enum2str(contract.ContractStatus));
+    #
+    #        connectionData.parmUtilityType(contractConnection.UtilityType);
+    #        connectionData.parmUtilityTypeLabel(enum2str(contractConnection.UtilityType));
+    #
+    #        connectionData.parmDirection(contractConnection.Direction);
+    #        connectionData.parmDirectionLabel(enum2str(contractConnection.Direction));
+    #
+    #        connectionData.parmStartDateTime(contractConnection.StartDateTime);
+    #        connectionData.parmStartDateTimeLabel(FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::UtcDateTime2FCSDateTime(contractConnection.StartDateTime)));
+    #        connectionData.parmEndDateTime(contractConnection.EndDateTime);
+    #        connectionData.parmStartDateTimeLabel(FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::UtcDateTime2FCSDateTime(contractConnection.EndDateTime)));
+    #
+    #        connectionData.parmstreetAddress(address.Address);
+    #        connectionData.parmStreet(address.Street);
+    #        connectionData.parmStreetNumber(address.StreetNumber);
+    #        connectionData.parmCity(address.City);
+    #        connectionData.parmState(address.State);
+    #        connectionData.parmCounty(address.County);
+    #        connectionData.parmZipCode(address.ZipCode);
+    #        connectionData.parmLatitude(address.Latitude);
+    #        connectionData.parmLongitude(address.Longitude);
+    #        connectionData.parmCountry(address.CountryRegionId);
+    #
+    #        connections.addEnd(connectionData);
+    #        /*
+    #        info(connectionData.parmConnectionId());
+    #        info(connectionData.parmMcsEanId());
+    #        info(connectionData.parmExternalConnectionId());
+    #        info(connectionData.parmDebtor());
+    #
+    #        info(datetime2str(FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::toGMT(FcsDateTimeAPI::UtcDateTime2FCSDateTime(contractConnection.StartDateTime)))));
+    #
+    #        info("=============");
+    #        */
+    #    }
+    #
+    #    portfolio.parmConnections(connections);
+    #
+    #    listE = connections.getEnumerator();
+    #    while(listE.moveNext())
+    #    {
+    #        // info(strFmt("Name: " + listE.current()));
+    #        connectionData = listE.current();
+    #        info(connectionData.parmConnectionId());
+    #        info(connectionData.parmMcsEanId());
+    #        info(connectionData.parmExternalConnectionId());
+    #        info(connectionData.parmDebtor());
+    #        info(connectionData.parmContractStatusLabel());
+    #        info("====================");
+    #    }
+    #
+    #}
+  ENDSOURCE
+  PROPERTIES
+    Origin              #{7BFF88A0-48F4-4DDA-A2A3-8972413E05CD}
+  ENDPROPERTIES
+  
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: Job2 unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #Job2
+    #static void Job2(Args _args)
+    #{
+    #        StdSvcPortfolioData                         portfolio;
+    #    List                                        connections;
+    #
+    #    //connection related data
+    #    StdSvcConnectionData                        connectionData;
+    #    McsCmContrContract                          contract;
+    #    McsCmContrConnection                        contractConnection;
+    #    McsConnection                               connection;
+    #    //location related data
+    #
+    #    DirPartyTable                               dirPartyTable;
+    #    LOGISTICSPOSTALADDRESS                      address;
+    #    LOGISTICSADDRESSSTATE                       addressState;
+    #    //country
+    #    LogisticsAddressCountryRegionTranslation    country;
+    #
+    #    portfolio = new StdSvcPortfolioData();
+    #    connections = new List(Types::Class);
+    #    connectionData = new StdSvcConnectionData();
+    #
+    #    //select all connection data
+    #    while select contract
+    #        join dirPartyTable
+    #        where dirPartyTable.RecId == contract.PartyContractor
+    #        && contract.ContractStatus == McsCmContrStatuses::Signed
+    #        join address
+    #        where address.Location == dirPartyTable.PrimaryAddressLocation
+    #        join addressState
+    #        where address.State == addressState.StateId
+    #        join contractConnection
+    #        where dirPartyTable.RecId == contractConnection.PartyDebtor
+    #        && contractConnection.EndDateTime == FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::DateNull())
+    #        join connection
+    #        where contractConnection.ExternalConnectionId == connection.ExternalConnectionId
+    #    {
+    #        connectionData.parmConnectionId(connection.Id);
+    #        connectionData.parmMcsEanId(connection.EanId);
+    #        connectionData.parmExternalConnectionId(connection.ExternalConnectionId);
+    #        connectionData.parmUtilityType(connection.UtilityType);
+    #        connectionData.parmUtilityTypeLabel(enum2str(connection.UtilityType));
+    #        connectionData.parmContractStatus(contract.ContractStatus);
+    #        connectionData.parmContractStatusLabel(enum2str(contract.ContractStatus));
+    #        connectionData.parmDirection(contractConnection.Direction);
+    #        connectionData.parmDirectionLabel(enum2str(contractConnection.Direction));
+    #        connectionData.parmDebtor(dirPartyTable.Name);
+    #        connectionData.parmStartDateTime(contractConnection.StartDateTime);
+    #        connectionData.parmStartDateTimeLabel(FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::UtcDateTime2FCSDateTime(contractConnection.StartDateTime)));
+    #        connectionData.parmEndDateTime(contractConnection.EndDateTime);
+    #        connectionData.parmStartDateTimeLabel(FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::UtcDateTime2FCSDateTime(contractConnection.EndDateTime)));
+    #
+    #        connectionData.parmStreet(address.Street);
+    #        connectionData.parmStreetNumber(address.StreetNumber);
+    #        connectionData.parmCity(address.City);
+    #        connectionData.parmState(address.State);
+    #        connectionData.parmCounty(address.County);
+    #        connectionData.parmZipCode(address.ZipCode);
+    #        connectionData.parmLatitude(address.Latitude);
+    #        connectionData.parmLongitude(address.Longitude);
+    #        select country
+    #            where country.CountryRegionId == address.CountryRegionId
+    #            && country.LanguageId == 'en-us';
+    #
+    #            if(country != null)
+    #            {
+    #                connectionData.parmCountry(country.ShortName);
+    #            }
+    #         connections.addEnd(connectionData);
+    #    }
+    #
+    #    portfolio.parmConnections(connections);
+    #
+    #    if(connections.elements() > 20)
+    #    {
+    #        info("yes");
+    #    }
+    #    else{
+    #      info("no");
+    #    }
+    #}
+  ENDSOURCE
+  PROPERTIES
+    Origin              #{7F230A6A-CA23-4027-B9E0-E18B8FBC3DA5}
+  ENDPROPERTIES
+  
+
+***Element: SVG
+
+; Microsoft Dynamics AX SERVICEGROUP : StdSvcConnectionWPF unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICEGROUP #StdSvcConnectionWPF
+    PROPERTIES
+      Name                #StdSvcConnectionWPF
+      Origin              #{7DDE7BCC-089C-459E-A7BF-2F23B572BA75}
+    ENDPROPERTIES
+    
+    SERVICENODEREFERENCE #StdSvcConnection
+      PROPERTIES
+        Name                #StdSvcConnection
+        Service             #StdSvcConnection
+      ENDPROPERTIES
+      
+    ENDSERVICENODEREFERENCE
+    
+ENDSERVICEGROUP
+
+
+***Element: SVC
+
+; Microsoft Dynamics AX SERVICE : StdSvcConnection unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICE #StdSvcConnection
+    PROPERTIES
+      Name                #StdSvcConnection
+      ExternalName        #StdConnection
+      Namespace           #http://schemas.std.sg/ax/std/cm/services
+      Class               #StdSvcConnection
+      Origin              #{5CE9D995-1688-47E1-882A-E92B2EF6E83A}
+    ENDPROPERTIES
+    
+    OPERATIONS
+      OPERATION #getConnections
+        PROPERTIES
+          Name                #getConnections
+          Method              #getConnections
+        ENDPROPERTIES
+        
+        PERMISSIONSET #Permissions
+          PROPERTIES
+          ENDPROPERTIES
+          
+          TABLES #Tables
+          ENDTABLES
+          
+        SERVERMETHODS #Server Methods
+        ENDSERVERMETHODS
+        
+      ASSOCIATEDCODEPERMISSIONS #Associated Code Permissions
+      ENDASSOCIATEDCODEPERMISSIONS
+      
+  ENDPERMISSIONSET
+  
+ENDOPERATION
+
+ENDOPERATIONS
+
+ENDSERVICE
+
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: StdSvcPortfolioData unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #StdSvcPortfolioData
+    PROPERTIES
+      Name                #StdSvcPortfolioData
+      Origin              #{318659CE-E17A-4E0E-95F9-CE7609CA8903}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #[DataContractAttribute(@"PortfolioConnection")]
+        #class StdSvcPortfolioData
+        #{
+        #    List connections;
+        #}
+      ENDSOURCE
+      SOURCE #parmConnections
+        #[DataMemberAttribute(@"AllConnections"),
+        #AifCollectionTypeAttribute(@"_connections", Types::Class, classStr(StdSvcConnectionData)),
+        #AifCollectionTypeAttribute(@"return", Types::Class, classStr(StdSvcConnectionData))]
+        #public List parmConnections(List _connections = connections)
+        #{
+        #    connections = _connections;
+        #    return connections;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: StdSvcConnection unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #StdSvcConnection
+    PROPERTIES
+      Name                #StdSvcConnection
+      Origin              #{DFB7B6A7-7A0D-4CA4-939D-97D56F7E7FC7}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #class StdSvcConnection
+        #{
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getConnections
+        #[SysEntryPointAttribute]
+        #public StdSvcPortfolioData getConnections()
+        #{
+        #    StdSvcPortfolioData                         portfolio;
+        #    List                                        connections;
+        #
+        #    //connection related data
+        #    StdSvcConnectionData                        connectionData;
+        #    McsCmContrContract                          contract;
+        #    McsCmContrConnection                        contractConnection;
+        #    McsConnection                               connection;
+        #    //location related data
+        #
+        #    DirPartyTable                               dirPartyTable;
+        #    LOGISTICSPOSTALADDRESS                      address;
+        #    LOGISTICSADDRESSSTATE                       addressState;
+        #    //country
+        #    LogisticsAddressCountryRegionTranslation    country;
+        #
+        #    portfolio = new StdSvcPortfolioData();
+        #    connections = new List(Types::Class);
+        #
+        #
+        #    //select all connection data
+        #    while select *
+        #        from contract
+        #        join dirPartyTable
+        #        where dirPartyTable.RecId == contract.PartyContractor
+        #        //&& contract.ContractStatus == McsCmContrStatuses::Signed
+        #        join address
+        #        where address.Location == dirPartyTable.PrimaryAddressLocation
+        #        join addressState
+        #        where address.State == addressState.StateId
+        #        join contractConnection
+        #        where dirPartyTable.RecId == contractConnection.PartyDebtor
+        #        //&& contractConnection.EndDateTime == FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::DateNull())
+        #        join connection
+        #        group by connection.Id, connection.EanId, connection.ExternalConnectionId
+        #        , contract.ContractStatus
+        #        , contractConnection.Direction, contractConnection.UtilityType
+        #        , contractConnection.StartDateTime, contractConnection.EndDateTime
+        #        , dirPartyTable.Name
+        #        , address.Street, address.StreetNumber, address.City, address.State, address.County, address.CountryRegionId
+        #        , address.Address, address.Latitude, address.Longitude
+        #        where contractConnection.ExternalConnectionId == connection.ExternalConnectionId
+        #    {
+        #        connectionData = new StdSvcConnectionData();
+        #        connectionData.parmConnectionId(connection.Id);
+        #        connectionData.parmMcsEanId(connection.EanId);
+        #        connectionData.parmExternalConnectionId(connection.ExternalConnectionId);
+        #        connectionData.parmDebtor(dirPartyTable.Name);
+        #        connectionData.parmContractStatus(contract.ContractStatus);
+        #        connectionData.parmContractStatusLabel(enum2str(contract.ContractStatus));
+        #
+        #        connectionData.parmUtilityType(contractConnection.UtilityType);
+        #        connectionData.parmUtilityTypeLabel(enum2str(contractConnection.UtilityType));
+        #
+        #        connectionData.parmDirection(contractConnection.Direction);
+        #        connectionData.parmDirectionLabel(enum2str(contractConnection.Direction));
+        #
+        #        connectionData.parmStartDateTime(contractConnection.StartDateTime);
+        #        connectionData.parmStartDateTimeLabel(FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::UtcDateTime2FCSDateTime(contractConnection.StartDateTime)));
+        #        connectionData.parmEndDateTime(contractConnection.EndDateTime);
+        #        connectionData.parmStartDateTimeLabel(FcsDateTimeAPI::FCSDateTime2UTCDateTime(FcsDateTimeAPI::UtcDateTime2FCSDateTime(contractConnection.EndDateTime)));
+        #
+        #        connectionData.parmstreetAddress(address.Address);
+        #        connectionData.parmStreet(address.Street);
+        #        connectionData.parmStreetNumber(address.StreetNumber);
+        #        connectionData.parmCity(address.City);
+        #        connectionData.parmState(address.State);
+        #        connectionData.parmCounty(address.County);
+        #        connectionData.parmZipCode(address.ZipCode);
+        #        connectionData.parmLatitude(address.Latitude);
+        #        connectionData.parmLongitude(address.Longitude);
+        #        connectionData.parmCountry(address.CountryRegionId);
+        #
+        #        connections.addEnd(connectionData);
+        #    }
+        #
+        #    portfolio.parmConnections(connections);
+        #    return portfolio;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: StdSvcConnectionData unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #StdSvcConnectionData
+    PROPERTIES
+      Name                #StdSvcConnectionData
+      Origin              #{62DDAE04-2D7C-4D16-86F2-629CD21B0058}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #[DataContractAttribute(@"StdConnection")]
+        #class StdSvcConnectionData
+        #{
+        #    McsConnectionId                             connectionId;
+        #    McsEanId                                    eanId;
+        #    McsExternalConnectionId                     externalConnectionId;
+        #    str                                         debtor;
+        #    str                                         contractNum;
+        #    McsConnectionDirection                      directionType;
+        #    str                                         directionTypeLabel;
+        #    McsCmContrStatus                            contractStatus;
+        #    str                                         contractStatusLabel;
+        #    McsUtilityType                              utilityType;
+        #    str                                         utilityTypeLabel;
+        #    McsStartDateTimeDay                         startDateTime;
+        #    utcDateTime                                 startDateTimeLabel;
+        #    McsEndDateTimeDay                           endDateTime;
+        #    utcDateTime                                 endDateTimeLabel;
+        #
+        #    str                                         streetAddress;
+        #    LogisticsAddressStreet                      street;
+        #    LogisticsAddressStreetNumber                streetNumber;
+        #    LogisticsAddressCity                        city;
+        #    LogisticsAddressStateId                     state;
+        #    LogisticsAddressCountyId                    county;
+        #    LogisticsAddressZipCodeId                   zipcode;
+        #    LogisticsAddressLatitude                    latitude;
+        #    LogisticsAddressLongitude                   longtitude;
+        #    str                                         country;
+        #}
+      ENDSOURCE
+      SOURCE #parmCity
+        #[DataMemberAttribute(@"City")]
+        #public LogisticsAddressCity parmCity(LogisticsAddressCity _city = city)
+        #{
+        #    city = _city;
+        #    return city;
+        #}
+      ENDSOURCE
+      SOURCE #parmConnectionId
+        #[DataMemberAttribute(@"ConnectionId")]
+        #public McsConnectionId parmConnectionId(McsConnectionId _connectionId = connectionId)
+        #{
+        #    connectionId = _connectionId;
+        #    return connectionId;
+        #}
+      ENDSOURCE
+      SOURCE #parmContractNum
+        #[DataMemberAttribute("ContractNum")]
+        #public str parmContractNum(str _contractNum = contractNum)
+        #{
+        #    contractNum = _contractNum;
+        #    return contractNum;
+        #}
+      ENDSOURCE
+      SOURCE #parmContractStatus
+        #[DataMemberAttribute("ContractStatus")]
+        #public McsCmContrStatus parmContractStatus(McsCmContrStatus _contractStatus = contractStatus)
+        #{
+        #    contractStatus = _contractStatus;
+        #    return contractStatus;
+        #}
+      ENDSOURCE
+      SOURCE #parmContractStatusLabel
+        #[DataMemberAttribute("ContractStatusLabel")]
+        #public str parmContractStatusLabel(str _contractStatusLabel = contractStatusLabel)
+        #{
+        #    contractStatusLabel = _contractStatusLabel;
+        #    return contractStatusLabel;
+        #}
+      ENDSOURCE
+      SOURCE #parmCountry
+        #[DataMemberAttribute(@"Country")]
+        #public str parmCountry(str _country = country)
+        #{
+        #    country = _country;
+        #    return country;
+        #}
+      ENDSOURCE
+      SOURCE #parmCounty
+        #[DataMemberAttribute(@"County")]
+        #public LogisticsAddressCountyId parmCounty(LogisticsAddressCountyId _county = county)
+        #{
+        #    county = _county;
+        #    return county;
+        #}
+      ENDSOURCE
+      SOURCE #parmDebtor
+        #[DataMemberAttribute(@"Debtor")]
+        #public str parmDebtor(str _debtor = debtor)
+        #{
+        #    debtor = _debtor;
+        #    return debtor;
+        #}
+      ENDSOURCE
+      SOURCE #parmDirection
+        #[DataMemberAttribute("DirectionType")]
+        #public McsConnectionDirection parmDirection(McsConnectionDirection _directionType = directionType)
+        #{
+        #    directionType = _directionType;
+        #    return directionType;
+        #}
+      ENDSOURCE
+      SOURCE #parmDirectionLabel
+        #[DataMemberAttribute("DirectionTypeLabel")]
+        #public str parmDirectionLabel(str _directionTypeLabel = directionTypeLabel)
+        #{
+        #    directionTypeLabel = _directionTypeLabel;
+        #    return directionTypeLabel;
+        #}
+      ENDSOURCE
+      SOURCE #parmEndDateTime
+        #[DataMemberAttribute(@"EndDateTime")]
+        #public McsEndDateTimeDay parmEndDateTime(McsEndDateTimeDay _endDateTime = endDateTime)
+        #{
+        #    endDateTime = _endDateTime;
+        #    return endDateTime;
+        #}
+      ENDSOURCE
+      SOURCE #parmEndDateTimeLabel
+        #[DataMemberAttribute(@"EndDateTimeLabel")]
+        #public utcDateTime parmEndDateTimeLabel(utcDateTime _endDateTimeLabel = endDateTimeLabel)
+        #{
+        #    endDateTimeLabel = _endDateTimeLabel;
+        #    return endDateTimeLabel;
+        #}
+      ENDSOURCE
+      SOURCE #parmExternalConnectionId
+        #[DataMemberAttribute(@"ExternalConnectionId")]
+        #public McsExternalConnectionId parmExternalConnectionId(McsExternalConnectionId _externalConnectionId = externalConnectionId)
+        #{
+        #    externalConnectionId = _externalConnectionId;
+        #    return externalConnectionId;
+        #}
+      ENDSOURCE
+      SOURCE #parmLatitude
+        #[DataMemberAttribute(@"Latitude")]
+        #public LogisticsAddressLatitude parmLatitude(LogisticsAddressLatitude _latitude = latitude)
+        #{
+        #    latitude = _latitude;
+        #    return latitude;
+        #}
+      ENDSOURCE
+      SOURCE #parmLongitude
+        #[DataMemberAttribute(@"Longtitude")]
+        #public LogisticsAddressLongitude parmLongitude(LogisticsAddressLongitude _longtitude = longtitude)
+        #{
+        #    longtitude = _longtitude;
+        #    return longtitude;
+        #}
+      ENDSOURCE
+      SOURCE #parmMcsEanId
+        #[DataMemberAttribute(@"EanId")]
+        #public McsEanId parmMcsEanId(McsEanId _eanId = eanId)
+        #{
+        #    eanId = _eanId;
+        #    return eanId;
+        #}
+      ENDSOURCE
+      SOURCE #parmStartDateTime
+        #[DataMemberAttribute(@"StartDateTime")]
+        #public McsStartDateTimeDay parmStartDateTime(McsStartDateTimeDay _startDateTime = startDateTime)
+        #{
+        #    startDateTime = _startDateTime;
+        #    return startDateTime;
+        #}
+      ENDSOURCE
+      SOURCE #parmStartDateTimeLabel
+        #[DataMemberAttribute(@"StartDateTimeLabel")]
+        #public utcDateTime parmStartDateTimeLabel(utcDateTime _startDatetimeLabel = startDateTimeLabel)
+        #{
+        #    startDateTimeLabel = _startDatetimeLabel;
+        #    return startDateTimeLabel;
+        #}
+      ENDSOURCE
+      SOURCE #parmState
+        #[DataMemberAttribute(@"State")]
+        #public LogisticsAddressStateId parmState(LogisticsAddressStateId _state = state)
+        #{
+        #    state = _state;
+        #    return state;
+        #}
+      ENDSOURCE
+      SOURCE #parmStreet
+        #[DataMemberAttribute(@"StreetAddress")]
+        #public LogisticsAddressStreet parmStreet(LogisticsAddressStreet _street = street)
+        #{
+        #    street = _street;
+        #    return street;
+        #}
+      ENDSOURCE
+      SOURCE #parmstreetAddress
+        #[DataMemberAttribute("Address")]
+        #public str parmstreetAddress(str _streetAddress = streetAddress)
+        #{
+        #    streetAddress = _streetAddress;
+        #    return streetAddress;
+        #}
+      ENDSOURCE
+      SOURCE #parmStreetNumber
+        #[DataMemberAttribute(@"StreetNumber")]
+        #public LogisticsAddressStreetNumber parmStreetNumber(LogisticsAddressStreetNumber _streetNumber = streetNumber)
+        #{
+        #    streetNumber = _streetNumber;
+        #    return streetNumber;
+        #}
+      ENDSOURCE
+      SOURCE #parmUtilityType
+        #[DataMemberAttribute(@"UtilityType")]
+        #public McsUtilityType parmUtilityType(McsUtilityType _utilityType = utilityType)
+        #{
+        #    utilityType = _utilityType;
+        #    return utilityType;
+        #}
+      ENDSOURCE
+      SOURCE #parmUtilityTypeLabel
+        #[DataMemberAttribute(@"UtilityTypeLabel")]
+        #public str parmUtilityTypeLabel(str _utilityTypeLabel = utilityTypeLabel)
+        #{
+        #    utilityTypeLabel = _utilityTypeLabel;
+        #    return utilityTypeLabel;
+        #}
+      ENDSOURCE
+      SOURCE #parmZipCode
+        #[DataMemberAttribute(@"ZipCode")]
+        #public LogisticsAddressZipCodeId parmZipCode(LogisticsAddressZipCodeId _zipcode = zipcode)
+        #{
+        #    zipcode = _zipcode;
+        #    return zipcode;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : StdProj1 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #StdProj1
+  SHARED
+  PROPERTIES
+    Name                #StdProj1
+    Origin              #{23D45550-C13D-4D80-A148-9A9B0DF04C24}
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #Jobs
+      PROPERTIES
+        Name                #Jobs
+        ProjectGroupType    #Jobs
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 5
+        UTILOBJECTID 0
+        NODETYPE 215
+        NAME #Job1
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 5
+        UTILOBJECTID 0
+        NODETYPE 215
+        NAME #Job2
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Forms
+      PROPERTIES
+        Name                #Forms
+        ProjectGroupType    #Forms
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Service Group
+      PROPERTIES
+        Name                #Service Group
+        ProjectGroupType    #ServiceGroups
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 137
+        UTILOBJECTID 0
+        NODETYPE 1325
+        NAME #StdSvcConnectionWPF
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Services
+      PROPERTIES
+        Name                #Services
+        ProjectGroupType    #Services
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 76
+        UTILOBJECTID 0
+        NODETYPE 1321
+        NAME #StdSvcConnection
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #Classes
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 1042784
+        NODETYPE 329
+        NAME #StdSvcPortfolioData
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 1042782
+        NODETYPE 329
+        NAME #StdSvcConnection
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 1042783
+        NODETYPE 329
+        NAME #StdSvcConnectionData
+      ENDNODE
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END
