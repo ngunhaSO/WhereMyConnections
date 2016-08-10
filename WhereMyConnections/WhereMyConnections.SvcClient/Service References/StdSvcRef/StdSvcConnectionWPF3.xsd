@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Dynamics.Ax.Application" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Dynamics.Ax.Application" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Microsoft.Dynamics.Ax.Xpp" />
+  <xs:import schemaLocation="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="StdConnection">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Microsoft.Dynamics.Ax.Xpp" base="q1:XppObjectBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ConnectionId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ContractNum" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ContractStatus" type="tns:McsCmContrStatuses" />
+          <xs:element minOccurs="0" name="ContractStatusLabel" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Country" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="County" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Debtor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DirectionType" type="tns:McsConnectionDirections" />
+          <xs:element minOccurs="0" name="DirectionTypeLabel" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="EanId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="EndDateTime" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="EndDateTimeLabel" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ExternalConnectionId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Latitude" type="xs:decimal" />
+          <xs:element minOccurs="0" name="Longtitude" type="xs:decimal" />
+          <xs:element minOccurs="0" name="StartDateTime" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="StartDateTimeLabel" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="StreetAddress" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="StreetNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="UtilityType" type="tns:McsUtilityTypes" />
+          <xs:element minOccurs="0" name="UtilityTypeLabel" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ZipCode" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StdConnection" nillable="true" type="tns:StdConnection" />
+  <xs:simpleType name="McsCmContrStatuses">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NotSpecified" />
+      <xs:enumeration value="Draft" />
+      <xs:enumeration value="Initial" />
+      <xs:enumeration value="ToApprove" />
+      <xs:enumeration value="Approved" />
+      <xs:enumeration value="SendToCustomer" />
+      <xs:enumeration value="Signed" />
+      <xs:enumeration value="Loss">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="McsCmContrStatuses" nillable="true" type="tns:McsCmContrStatuses" />
+  <xs:simpleType name="McsConnectionDirections">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NotSpecified" />
+      <xs:enumeration value="Production" />
+      <xs:enumeration value="Consumption" />
+      <xs:enumeration value="Both" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="McsConnectionDirections" nillable="true" type="tns:McsConnectionDirections" />
+  <xs:simpleType name="McsUtilityTypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NotSpecified" />
+      <xs:enumeration value="Electricity" />
+      <xs:enumeration value="Gas" />
+      <xs:enumeration value="Water" />
+      <xs:enumeration value="Heat">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="WasteWater">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="McsUtilityTypes" nillable="true" type="tns:McsUtilityTypes" />
+  <xs:complexType name="PortfolioConnection">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/Microsoft.Dynamics.Ax.Xpp" base="q2:XppObjectBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AllConnections" nillable="true" type="tns:ArrayOfStdConnection" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PortfolioConnection" nillable="true" type="tns:PortfolioConnection" />
+  <xs:complexType name="ArrayOfStdConnection">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StdConnection" nillable="true" type="tns:StdConnection" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStdConnection" nillable="true" type="tns:ArrayOfStdConnection" />
+</xs:schema>

@@ -1,0 +1,8 @@
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\bin\Debug\WhereMyConnections.ConsoleTest.exe.config
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\bin\Debug\WhereMyConnections.ConsoleTest.exe
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\bin\Debug\WhereMyConnections.ConsoleTest.pdb
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\bin\Debug\WhereMyConnections.SvcClient.dll
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\bin\Debug\WhereMyConnections.SvcClient.pdb
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\obj\Debug\WhereMyConnections.ConsoleTest.csprojResolveAssemblyReference.cache
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\obj\Debug\WhereMyConnections.ConsoleTest.exe
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.ConsoleTest\obj\Debug\WhereMyConnections.ConsoleTest.pdb

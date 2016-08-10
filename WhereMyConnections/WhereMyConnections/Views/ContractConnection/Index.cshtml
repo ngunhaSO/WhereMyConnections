@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "Contract Connections";
+}
+
+<h2>Index</h2>
+<section class="header">
+    <div class="btns">
+        <div class="btn-switch active-map" data-id="usa">USA</div>
+        <div class="btn-switch" data-id="1">United Kingdoms</div>
+        <div class="btn-switch" data-id="2">Singapore</div>
+        <div class="btn-switch" data-id="3">Belgium</div>
+    </div>
+</section>
+<div id="viewDiv"></div>
+<div id="overviewDiv">
+    <div id="extentDiv"></div>
+</div>
+
+<div id="test"></div>
+@section Styles{
+    <style>
+        #viewDiv {
+            height: 400px;
+            width: 720px;
+        }
+
+        #overviewDiv {
+            position: absolute;
+            top: 180px;
+            right: 120px;
+            height: 150px;
+            width: 150px;
+            border: 1px solid black;
+            z-index: 1;
+        }
+
+        #extentDiv {
+            background-color: rgba(0,0,0, 0.5);
+            position: absolute;
+            z-index: 2;
+        }
+
+        .btns {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+        }
+
+        .btn-switch {
+            flex-grow: 4;
+            background-color: rgba(34, 111, 14, 0.5);
+            color: #FFF;
+            margin: 1px;
+            width: 50%;
+            padding: 20px;
+            overflow: auto;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.7em;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    
+    <script>
+        //window.applicationBaseUrl = @Html.Raw(HttpUtility.JavaScriptStringEncode(Url.Content("~/"), true));
+
+        // if you need to include host and port in the url, use this:
+        window.applicationBaseUrl = @Html.Raw(HttpUtility.JavaScriptStringEncode(
+            new Uri(
+                       new Uri(this.Context.Request.Url.GetLeftPart(UriPartial.Authority)),
+                       Url.Content("~/")
+                   ).ToString(), true));
+
+        require([
+          "esri/Map",
+          "esri/views/SceneView",
+          "esri/views/MapView",   //NOTE: the order is very important here. Put SceneView on top of MapView if to show 3D view
+          "esri/layers/FeatureLayer",
+          "esri/core/watchUtils",
+          "dojo/dom",
+          "dojo/on",
+          "dojo/promise/all",
+          "dojo/domReady!"
+        ],
+        function (Map, SceneView, MapView,FeatureLayer, watchUtils, dom,on, all, Point) {
+            var webmapids = [
+            "f2e9b762544945f390ca4ac3671cfa72",
+            "b7641f0a6bb641aebcd817f4f72fbe7b",
+            "077a689e3d834444973541a374663fe8",
+            "ec2710e10b784a37954986bcd42778cf"
+            ];
+
+            //create a Map with a basemap, to be used with in the main view
+            var mainMap = new Map({
+                basemap: "streets",
+                ground: "world-elevation"
+            });
+            //create another Map, to be used in the overview 'view'
+            var overviewMap = new Map({
+                basemap: "topo"
+            });
+
+            //create the SceneView
+            var mainView = new SceneView({
+                container: "viewDiv",
+                map: mainMap
+            });
+            mainView.then(function () {
+                mainView.goTo({
+                    center: [ -117.1942978, 34.0571709],// [-112, 38],
+                    scale: 200000,
+                    heading: 35,
+                    tilt: 60
+                }, {
+                    animate: false
+                })
+            });
+
+            // Create FeatureLayer, set the elevation mode and add to the map
+            var layer = new FeatureLayer({
+                url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer/0",
+                mode: FeatureLayer.MODE_SNAPSHOT,
+                definitionExpression: "POP2007 > 50000",
+                elevationInfo: {
+                    mode: "relative-to-ground",
+                    offset: 10000
+                }
+            });
+            mainMap.add(layer);
+
+            //create the MapView for overview map
+            var mapView = new MapView({
+                container: 'overviewDiv',
+                map: overviewMap
+            });
+
+            //remove the default widgets
+            mapView.ui.components = [];
+
+            var extentDiv = dom.byId('extentDiv');
+
+            mapView.then(function () {
+                //update the overview extent whenever the MapView or SceneView extent changes
+                mainView.watch('extent', updateOverviewExtent);
+                mapView.watch('extent', updateOverviewExtent);
+                //update the minimap overview when the main view becomes stationary
+                watchUtils.when(mainView, 'stationary', updateOverview);
+
+                function updateOverview() {
+                    //animate the MapView to zoomed out scale so we get a nice overview
+                    //We use the 'progress' callback of the goTo promise to update the overview extent while animating
+                    mapView.goTo({
+                        center: mainView.center,
+                        scale: mainView.scale * 2 * Math.max(mainView.width / mapView.width, mainView.height / mapView.height)
+                    });
+                }
+
+                function updateOverviewExtent() {
+                    //update the overview extent by converting the SceneView extent to the MapView screen coordinates and updating the extentDiv position.
+                    var extent = mainView.extent;
+
+                    var bottomLeft = mapView.toScreen(extent.xmin, extent.ymin);
+                    var topRight = mapView.toScreen(extent.xmax, extent.ymax);
+
+                    extentDiv.style.top = topRight.y + "px";
+                    extentDiv.style.left = bottomLeft.x + "px";
+
+                    extentDiv.style.height = (bottomLeft.y - topRight.y) + "px";
+                    extentDiv.style.width = (topRight.x - bottomLeft.x) + "px";
+                }
+            });
+
+            TestSomething(mainView); //call WebAPI to get the data
+
+            on(document.querySelector(".btns"), ".btn-switch:click", function (e) {
+                /************************************************************
+                 * On a button click, change the map of the View
+                 ************************************************************/
+                var id = e.target.getAttribute("data-id");
+                if (id) {
+                    console.log("get here");
+                    var webmap = webmaps[id];
+                    view.map = webmap;
+                    var nodes = document.querySelectorAll(".btn-switch");
+                    for (var idx = 0; idx < nodes.length; idx++) {
+                        var node = nodes[idx];
+                        var mapIndex = node.getAttribute("data-id");
+                        if (mapIndex === id) {
+                            node.classList.add("active-map");
+                        } else {
+                            node.classList.remove("active-map");
+                        }
+                    }
+                }
+            });
+        }
+        );
+
+
+        function TestSomething(mainView) {
+            $.ajax({
+                type: 'GET',
+                contentType: "application/json",
+                url: window.applicationBaseUrl + '/api/SignedContract', // 'http://localhost:58995/api/SignedContract',
+                dataType: 'json',
+                async: true,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++)
+                        for (var name in data[i]) {
+                            //console.log("Item name: " + name); //the name of the element node
+                            console.log("Source: " + data[i].eanId);
+                            //updateCenterMainView(mainView);                           
+                        }
+                },
+                error: function (data) {
+                    alert("Something wrong parsing the url: " + this.url);
+                }
+            });
+        };
+
+        //function to move the center area to different location on map
+        function updateCenterMainView(mainView){
+            mainView.then(function () {
+                mainView.goTo({
+                    center: [-112, 38],
+                    scale: 200000,
+                    heading: 35,
+                    tilt: 60
+                }, {
+                    animate: true
+                })
+            });
+        }
+
+    </script>
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="d78e426b-76e3-4874-bb91-3a6a2413cd64" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://WIN-U6U8D3BKOHB:8101/DynamicsAx/Services/StdSvcConnectionWPF" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="StdSvcConnectionWPF.xsd" MetadataType="Schema" ID="03d4c4bb-9050-4968-af51-06d94e161a6c" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd6" />
+    <MetadataFile FileName="StdSvcConnectionWPF1.xsd" MetadataType="Schema" ID="904f40cf-2ac2-417b-af66-95b514aa0035" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd3" />
+    <MetadataFile FileName="StdSvcConnectionWPF2.xsd" MetadataType="Schema" ID="40784af3-6270-4ab2-8d0f-698ff1dc6c00" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd4" />
+    <MetadataFile FileName="StdSvcConnectionWPF3.xsd" MetadataType="Schema" ID="0fe9085d-5b16-4af2-8ed8-3f599801227f" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd1" />
+    <MetadataFile FileName="StdSvcConnectionWPF4.xsd" MetadataType="Schema" ID="bae51086-21bf-4edc-b8f7-c3fa1214e9a2" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd0" />
+    <MetadataFile FileName="StdSvcConnectionWPF5.xsd" MetadataType="Schema" ID="dfbd0303-f733-424f-a01e-127bae862767" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd7" />
+    <MetadataFile FileName="StdSvcConnectionWPF6.xsd" MetadataType="Schema" ID="7aad1249-da90-434a-bbab-b6b1ec24c1bf" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd5" />
+    <MetadataFile FileName="StdSvcConnectionWPF7.xsd" MetadataType="Schema" ID="b138f26c-707f-4d29-8c69-5cfa7857f583" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?xsd=xsd2" />
+    <MetadataFile FileName="StdSvcConnectionWPF.wsdl" MetadataType="Wsdl" ID="44188ac6-337d-40df-9d72-90e0973c3a27" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF?wsdl=wsdl0" />
+    <MetadataFile FileName="StdSvcConnectionWPF1.wsdl" MetadataType="Wsdl" ID="31152ade-210a-4170-aa13-7b5e388c15df" SourceId="1" SourceUrl="http://win-u6u8d3bkohb:8101/DynamicsAx/Services/StdSvcConnectionWPF" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,6 @@
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.SvcClient\bin\Debug\WhereMyConnections.SvcClient.dll.config
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.SvcClient\bin\Debug\WhereMyConnections.SvcClient.dll
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.SvcClient\bin\Debug\WhereMyConnections.SvcClient.pdb
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.SvcClient\obj\Debug\WhereMyConnections.SvcClient.csprojResolveAssemblyReference.cache
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.SvcClient\obj\Debug\WhereMyConnections.SvcClient.dll
+c:\users\administrator\documents\visual studio 2015\Projects\WhereMyConnections\WhereMyConnections.SvcClient\obj\Debug\WhereMyConnections.SvcClient.pdb
